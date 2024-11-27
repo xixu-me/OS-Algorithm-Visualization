@@ -9,7 +9,6 @@ function initialize() {
     head = document.getElementById("head");
     const diskTrack = document.getElementById("diskTrack");
     const trackWidth = diskTrack.offsetWidth;
-    const headWidth = 12;
 
     // Clear existing requests
     const existingRequests = document.querySelectorAll(".request");
@@ -48,7 +47,6 @@ function startFCFS() {
     reset();
     const diskTrack = document.getElementById("diskTrack");
     const trackWidth = diskTrack.offsetWidth;
-    const headWidth = 12;
     const initialHead = parseInt(document.getElementById("initialHead").value);
     let currentPosition = initialHead;
     let currentRequestIndex = 0;
@@ -67,16 +65,17 @@ function startFCFS() {
 
         head.style.left = targetPixel + "px";
 
-        const requestElements = document.querySelectorAll(".request");
-        requestElements.forEach((req) => {
-            const reqPos =
-                ((parseFloat(req.style.left) - headWidth / 2) /
-                    (trackWidth - headWidth)) *
-                199;
-            if (Math.abs(reqPos - targetPosition) < 1) {
-                req.classList.add("served");
-            }
-        });
+        setTimeout(() => {
+            const requestElements = document.querySelectorAll(".request");
+            requestElements.forEach((req) => {
+                const reqPos = Math.round(
+                    (parseFloat(req.style.left) / trackWidth) * 199
+                );
+                if (reqPos === targetPosition) {
+                    req.classList.add("served");
+                }
+            });
+        }, 400);
 
         direction = currentPosition > targetPosition ? -1 : 1;
         updateStats(targetPosition);
@@ -88,7 +87,6 @@ function startSSTF() {
     reset();
     const diskTrack = document.getElementById("diskTrack");
     const trackWidth = diskTrack.offsetWidth;
-    const headWidth = 12;
     const initialHead = parseInt(document.getElementById("initialHead").value);
     let currentPosition = initialHead;
     let remainingRequests = [...requests];
@@ -115,16 +113,17 @@ function startSSTF() {
 
         head.style.left = targetPixel + "px";
 
-        const requests = document.querySelectorAll(".request");
-        requests.forEach((req) => {
-            const reqPos =
-                ((parseFloat(req.style.left) - headWidth / 2) /
-                    (trackWidth - headWidth)) *
-                199;
-            if (Math.abs(reqPos - closestRequest) < 1) {
-                req.classList.add("served");
-            }
-        });
+        setTimeout(() => {
+            const requests = document.querySelectorAll(".request");
+            requests.forEach((req) => {
+                const reqPos = Math.round(
+                    (parseFloat(req.style.left) / trackWidth) * 199
+                );
+                if (reqPos === closestRequest) {
+                    req.classList.add("served");
+                }
+            });
+        }, 400);
 
         direction = currentPosition > closestRequest ? -1 : 1;
         updateStats(closestRequest);
@@ -135,7 +134,6 @@ function startSCAN() {
     reset();
     const diskTrack = document.getElementById("diskTrack");
     const trackWidth = diskTrack.offsetWidth;
-    const headWidth = 12;
     const initialHead = parseInt(document.getElementById("initialHead").value);
     const initialDirection = document.getElementById("scanDirection").value;
     let currentPosition = initialHead;
@@ -176,16 +174,17 @@ function startSCAN() {
 
         head.style.left = targetPixel + "px";
 
-        const requests = document.querySelectorAll(".request");
-        requests.forEach((req) => {
-            const reqPos =
-                ((parseFloat(req.style.left) - headWidth / 2) /
-                    (trackWidth - headWidth)) *
-                199;
-            if (Math.abs(reqPos - targetPosition) < 1) {
-                req.classList.add("served");
-            }
-        });
+        setTimeout(() => {
+            const requests = document.querySelectorAll(".request");
+            requests.forEach((req) => {
+                const reqPos = Math.round(
+                    (parseFloat(req.style.left) / trackWidth) * 199
+                );
+                if (reqPos === targetPosition) {
+                    req.classList.add("served");
+                }
+            });
+        }, 400);
 
         updateStats(targetPosition);
         currentRequestIndex++;
@@ -204,4 +203,5 @@ function markRequestAsServed(request) {
     request.style.animation = "pulse 0.3s ease";
 }
 
+// Initialize on load
 window.onload = initialize;
