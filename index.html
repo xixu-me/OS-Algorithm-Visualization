@@ -63,5 +63,32 @@
             </footer>
         </div>
         <script src="script.js"></script>
+        <script>
+                        // 添加全局错误处理
+                        window.onerror = function( msg, url, lineNo, columnNo, error) {
+                            console.error('
+                                "rror: '"+
+            m                       sg +
+            '                       "nURL: '"+
+                                   url +
+                                   '"nLine: '"+
+                               l    ineNo +
+                          '         "nColumn: '"+
+                c                   olumnNo +
+                              '     "nError object: '"+
+            J                       SON.stringify(error))
+                            ;
+                            return false;
+                        };
+
+                        // 确保脚本加载完成
+                        window.addEventListener('"oad'" function( ) {
+                            if (typeof initialize === '"unction'" {
+                                initialize();
+                            } else {
+                                console.error('"nitialize function not found'";
+                            }
+                        });
+        </script>
     </body>
 </html>
