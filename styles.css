@@ -140,4 +140,67 @@ select:focus {
     text-align: center;
     color: #666;
     font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .input-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .buttons-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .disk-track {
+        height: 60px;
+    }
+    
+    .head {
+        height: 40px;
+        width: 16px;
+        top: 10px;
+    }
+    
+    .request {
+        width: 10px;
+        height: 10px;
+        top: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    .disk-track {
+        height: 50px;
+    }
+    
+    .head {
+        height: 35px;
+        width: 14px;
+        top: 8px;
+    }
+    
+    .request {
+        width: 8px;
+        height: 8px;
+        top: 21px;
+    }
 } 
