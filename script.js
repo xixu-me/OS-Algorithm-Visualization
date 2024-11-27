@@ -8,22 +8,21 @@ let animationInterval;
 function initialize() {
     head = document.getElementById("head");
     const diskTrack = document.getElementById("diskTrack");
+    updateTrackElements(diskTrack);
+}
+
+function updateTrackElements(diskTrack) {
     const trackWidth = diskTrack.offsetWidth;
-
-    // Clear existing requests
-    const existingRequests = document.querySelectorAll(".request");
-    existingRequests.forEach((req) => req.remove());
-
-    // Get initial head position and requests
     const initialHead = parseInt(document.getElementById("initialHead").value);
     const requestInput = document.getElementById("requestQueue").value;
     requests = requestInput.split(",").map((x) => parseInt(x.trim()));
 
-    // Set initial head position
     const headPosition = (initialHead / 199) * trackWidth;
     head.style.left = headPosition + "px";
 
-    // Place request points
+    const existingRequests = document.querySelectorAll(".request");
+    existingRequests.forEach((req) => req.remove());
+
     requests.forEach((pos) => {
         const request = document.createElement("div");
         request.className = "request";
@@ -31,7 +30,6 @@ function initialize() {
         diskTrack.appendChild(request);
     });
 
-    // Reset statistics
     seekTime = 0;
     currentIndex = 0;
     direction = 1;
@@ -46,9 +44,9 @@ function updateStats(position) {
 function startFCFS() {
     reset();
     const diskTrack = document.getElementById("diskTrack");
-    const trackWidth = diskTrack.offsetWidth;
-    const initialHead = parseInt(document.getElementById("initialHead").value);
-    let currentPosition = initialHead;
+    let currentPosition = parseInt(
+        document.getElementById("initialHead").value
+    );
     let currentRequestIndex = 0;
 
     animationInterval = setInterval(() => {
@@ -57,6 +55,7 @@ function startFCFS() {
             return;
         }
 
+        const trackWidth = diskTrack.offsetWidth;
         const targetPosition = requests[currentRequestIndex];
         const targetPixel = (targetPosition / 199) * trackWidth;
 
@@ -195,7 +194,8 @@ function reset() {
     if (animationInterval) {
         clearInterval(animationInterval);
     }
-    initialize();
+    const diskTrack = document.getElementById("diskTrack");
+    updateTrackElements(diskTrack);
 }
 
 function markRequestAsServed(request) {
@@ -203,28 +203,16 @@ function markRequestAsServed(request) {
     request.style.animation = "pulse 0.3s ease";
 }
 
-// Add window resize handler
-window.addEventListener("resize", () => {
+function handleResize() {
     const diskTrack = document.getElementById("diskTrack");
-    const trackWidth = diskTrack.offsetWidth;
+    updateTrackElements(diskTrack);
+}
 
-    // Adjust head position
-    const currentPos = parseInt(
-        document.getElementById("currentPos").textContent
-    );
-    head.style.left = (currentPos / 199) * trackWidth + "px";
-
-    // Adjust all request points
-    const requests = document.querySelectorAll(".request");
-    requests.forEach((request) => {
-        const pos = Math.round(
-            (parseFloat(request.style.left) /
-                request.parentElement.offsetWidth) *
-                199
-        );
-        request.style.left = (pos / 199) * trackWidth + "px";
+window.onload = function () {
+    initialize();
+    let resizeTimeout;
+    window.addEventListener("resize", function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(handleResize, 100);
     });
-});
-
-// Initialize on load
-window.onload = initialize;
+};
