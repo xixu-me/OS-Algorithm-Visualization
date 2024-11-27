@@ -41,8 +41,17 @@ function updateStats(position) {
     document.getElementById("currentPos").textContent = position;
 }
 
+function resetButtonStates() {
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach((button) => button.classList.remove("active"));
+}
+
 function startFCFS() {
     reset();
+    resetButtonStates();
+    document
+        .querySelector('button[onclick="startFCFS()"]')
+        .classList.add("active");
     const diskTrack = document.getElementById("diskTrack");
     let currentPosition = parseInt(
         document.getElementById("initialHead").value
@@ -84,6 +93,10 @@ function startFCFS() {
 
 function startSSTF() {
     reset();
+    resetButtonStates();
+    document
+        .querySelector('button[onclick="startSSTF()"]')
+        .classList.add("active");
     const diskTrack = document.getElementById("diskTrack");
     const trackWidth = diskTrack.offsetWidth;
     const initialHead = parseInt(document.getElementById("initialHead").value);
@@ -131,6 +144,10 @@ function startSSTF() {
 
 function startSCAN() {
     reset();
+    resetButtonStates();
+    document
+        .querySelector('button[onclick="startSCAN()"]')
+        .classList.add("active");
     const diskTrack = document.getElementById("diskTrack");
     const trackWidth = diskTrack.offsetWidth;
     const initialHead = parseInt(document.getElementById("initialHead").value);
@@ -194,6 +211,7 @@ function reset() {
     if (animationInterval) {
         clearInterval(animationInterval);
     }
+    resetButtonStates();
     const diskTrack = document.getElementById("diskTrack");
     updateTrackElements(diskTrack);
 }
