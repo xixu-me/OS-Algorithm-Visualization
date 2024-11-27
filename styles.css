@@ -94,6 +94,12 @@ button:hover {
     box-shadow: 0 4px 12px rgba(34, 139, 230, 0.2);
 }
 
+button.active {
+    background: linear-gradient(45deg, #51cf66, #40c057);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(81, 207, 102, 0.2);
+}
+
 input,
 select {
     padding: 8px 12px;
