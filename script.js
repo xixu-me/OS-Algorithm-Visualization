@@ -203,5 +203,28 @@ function markRequestAsServed(request) {
     request.style.animation = "pulse 0.3s ease";
 }
 
+// Add window resize handler
+window.addEventListener("resize", () => {
+    const diskTrack = document.getElementById("diskTrack");
+    const trackWidth = diskTrack.offsetWidth;
+
+    // Adjust head position
+    const currentPos = parseInt(
+        document.getElementById("currentPos").textContent
+    );
+    head.style.left = (currentPos / 199) * trackWidth + "px";
+
+    // Adjust all request points
+    const requests = document.querySelectorAll(".request");
+    requests.forEach((request) => {
+        const pos = Math.round(
+            (parseFloat(request.style.left) /
+                request.parentElement.offsetWidth) *
+                199
+        );
+        request.style.left = (pos / 199) * trackWidth + "px";
+    });
+});
+
 // Initialize on load
 window.onload = initialize;
