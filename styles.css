@@ -89,6 +89,18 @@ button {
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+button.active {
+    background: linear-gradient(45deg, #40c057, #37b24d);
+    box-shadow: 0 4px 12px rgba(55, 178, 77, 0.2);
+}
+
 button:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(34, 139, 230, 0.2);
