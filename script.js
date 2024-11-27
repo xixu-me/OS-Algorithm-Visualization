@@ -9,7 +9,7 @@ let buttons;
 function initialize() {
     head = document.getElementById("head");
     const diskTrack = document.getElementById("diskTrack");
-    buttons = document.querySelectorAll('button');
+    buttons = document.querySelectorAll("button");
     updateTrackElements(diskTrack);
 }
 
@@ -44,18 +44,20 @@ function updateStats(position) {
 }
 
 function disableButtons(activeButton = null) {
-    buttons.forEach(button => {
+    buttons.forEach((button) => {
+        if (button.textContent === "重置") return;
+
         button.disabled = true;
         if (activeButton && button === activeButton) {
-            button.classList.add('active');
+            button.classList.add("active");
         }
     });
 }
 
 function enableButtons() {
-    buttons.forEach(button => {
+    buttons.forEach((button) => {
         button.disabled = false;
-        button.classList.remove('active');
+        button.classList.remove("active");
     });
 }
 
