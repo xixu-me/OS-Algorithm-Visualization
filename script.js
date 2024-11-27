@@ -4,10 +4,12 @@ let currentIndex = 0;
 let seekTime = 0;
 let direction = 1; // 1 for right, -1 for left
 let animationInterval;
+let buttons;
 
 function initialize() {
     head = document.getElementById("head");
     const diskTrack = document.getElementById("diskTrack");
+    buttons = document.querySelectorAll('button');
     updateTrackElements(diskTrack);
 }
 
@@ -41,8 +43,25 @@ function updateStats(position) {
     document.getElementById("currentPos").textContent = position;
 }
 
+function disableButtons(activeButton = null) {
+    buttons.forEach(button => {
+        button.disabled = true;
+        if (activeButton && button === activeButton) {
+            button.classList.add('active');
+        }
+    });
+}
+
+function enableButtons() {
+    buttons.forEach(button => {
+        button.disabled = false;
+        button.classList.remove('active');
+    });
+}
+
 function startFCFS() {
     reset();
+    disableButtons(event.target);
     const diskTrack = document.getElementById("diskTrack");
     let currentPosition = parseInt(
         document.getElementById("initialHead").value
@@ -52,6 +71,7 @@ function startFCFS() {
     animationInterval = setInterval(() => {
         if (currentRequestIndex >= requests.length) {
             clearInterval(animationInterval);
+            enableButtons();
             return;
         }
 
@@ -84,6 +104,7 @@ function startFCFS() {
 
 function startSSTF() {
     reset();
+    disableButtons(event.target);
     const diskTrack = document.getElementById("diskTrack");
     const trackWidth = diskTrack.offsetWidth;
     const initialHead = parseInt(document.getElementById("initialHead").value);
@@ -93,6 +114,7 @@ function startSSTF() {
     animationInterval = setInterval(() => {
         if (remainingRequests.length === 0) {
             clearInterval(animationInterval);
+            enableButtons();
             return;
         }
 
@@ -131,6 +153,7 @@ function startSSTF() {
 
 function startSCAN() {
     reset();
+    disableButtons(event.target);
     const diskTrack = document.getElementById("diskTrack");
     const trackWidth = diskTrack.offsetWidth;
     const initialHead = parseInt(document.getElementById("initialHead").value);
@@ -162,6 +185,7 @@ function startSCAN() {
     animationInterval = setInterval(() => {
         if (currentRequestIndex >= scanOrder.length) {
             clearInterval(animationInterval);
+            enableButtons();
             return;
         }
 
@@ -193,6 +217,7 @@ function startSCAN() {
 function reset() {
     if (animationInterval) {
         clearInterval(animationInterval);
+        enableButtons();
     }
     const diskTrack = document.getElementById("diskTrack");
     updateTrackElements(diskTrack);
