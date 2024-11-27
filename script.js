@@ -5,24 +5,10 @@ let seekTime = 0;
 let direction = 1; // 1 for right, -1 for left
 let animationInterval;
 
-document.addEventListener("DOMContentLoaded", function () {
-    initialize();
-});
-
 function initialize() {
     head = document.getElementById("head");
     const diskTrack = document.getElementById("diskTrack");
-
-    if (!head || !diskTrack) {
-        console.error("Required elements not found");
-        return;
-    }
-
-    try {
-        updateTrackElements(diskTrack);
-    } catch (error) {
-        console.error("Error initializing track elements:", error);
-    }
+    updateTrackElements(diskTrack);
 }
 
 function updateTrackElements(diskTrack) {
@@ -61,193 +47,164 @@ function resetButtonStates() {
 }
 
 function startFCFS() {
-    try {
-        if (animationInterval) {
+    reset();
+    resetButtonStates();
+    document
+        .querySelector('button[onclick="startFCFS()"]')
+        .classList.add("active");
+    const diskTrack = document.getElementById("diskTrack");
+    let currentPosition = parseInt(
+        document.getElementById("initialHead").value
+    );
+    let currentRequestIndex = 0;
+
+    animationInterval = setInterval(() => {
+        if (currentRequestIndex >= requests.length) {
             clearInterval(animationInterval);
+            return;
         }
-        reset();
-        resetButtonStates();
-        document
-            .querySelector('button[onclick="startFCFS()"]')
-            .classList.add("active");
-        const diskTrack = document.getElementById("diskTrack");
-        let currentPosition = parseInt(
-            document.getElementById("initialHead").value
-        );
-        let currentRequestIndex = 0;
 
-        animationInterval = setInterval(() => {
-            if (currentRequestIndex >= requests.length) {
-                clearInterval(animationInterval);
-                return;
-            }
+        const trackWidth = diskTrack.offsetWidth;
+        const targetPosition = requests[currentRequestIndex];
+        const targetPixel = (targetPosition / 199) * trackWidth;
 
-            const trackWidth = diskTrack.offsetWidth;
-            const targetPosition = requests[currentRequestIndex];
-            const targetPixel = (targetPosition / 199) * trackWidth;
+        seekTime += Math.abs(targetPosition - currentPosition);
+        currentPosition = targetPosition;
 
-            seekTime += Math.abs(targetPosition - currentPosition);
-            currentPosition = targetPosition;
+        head.style.left = targetPixel + "px";
 
-            head.style.left = targetPixel + "px";
+        setTimeout(() => {
+            const requestElements = document.querySelectorAll(".request");
+            requestElements.forEach((req) => {
+                const reqPos = Math.round(
+                    (parseFloat(req.style.left) / trackWidth) * 199
+                );
+                if (reqPos === targetPosition) {
+                    req.classList.add("served");
+                }
+            });
+        }, 400);
 
-            setTimeout(() => {
-                const requestElements = document.querySelectorAll(".request");
-                requestElements.forEach((req) => {
-                    const reqPos = Math.round(
-                        (parseFloat(req.style.left) / trackWidth) * 199
-                    );
-                    if (reqPos === targetPosition) {
-                        req.classList.add("served");
-                    }
-                });
-            }, 400);
-
-            direction = currentPosition > targetPosition ? -1 : 1;
-            updateStats(targetPosition);
-            currentRequestIndex++;
-        }, 1000);
-    } catch (error) {
-        console.error("Error in FCFS:", error);
-    }
+        direction = currentPosition > targetPosition ? -1 : 1;
+        updateStats(targetPosition);
+        currentRequestIndex++;
+    }, 1000);
 }
 
 function startSSTF() {
-    try {
-        if (animationInterval) {
+    reset();
+    resetButtonStates();
+    document
+        .querySelector('button[onclick="startSSTF()"]')
+        .classList.add("active");
+    const diskTrack = document.getElementById("diskTrack");
+    const trackWidth = diskTrack.offsetWidth;
+    const initialHead = parseInt(document.getElementById("initialHead").value);
+    let currentPosition = initialHead;
+    let remainingRequests = [...requests];
+
+    animationInterval = setInterval(() => {
+        if (remainingRequests.length === 0) {
             clearInterval(animationInterval);
+            return;
         }
-        reset();
-        resetButtonStates();
-        document
-            .querySelector('button[onclick="startSSTF()"]')
-            .classList.add("active");
-        const diskTrack = document.getElementById("diskTrack");
-        const trackWidth = diskTrack.offsetWidth;
-        const initialHead = parseInt(
-            document.getElementById("initialHead").value
+
+        let closestRequest = remainingRequests.reduce((closest, current) => {
+            let closestDistance = Math.abs(closest - currentPosition);
+            let currentDistance = Math.abs(current - currentPosition);
+            return currentDistance < closestDistance ? current : closest;
+        });
+
+        remainingRequests = remainingRequests.filter(
+            (req) => req !== closestRequest
         );
-        let currentPosition = initialHead;
-        let remainingRequests = [...requests];
+        const targetPixel = (closestRequest / 199) * trackWidth;
 
-        animationInterval = setInterval(() => {
-            if (remainingRequests.length === 0) {
-                clearInterval(animationInterval);
-                return;
-            }
+        seekTime += Math.abs(closestRequest - currentPosition);
+        currentPosition = closestRequest;
 
-            let closestRequest = remainingRequests.reduce(
-                (closest, current) => {
-                    let closestDistance = Math.abs(closest - currentPosition);
-                    let currentDistance = Math.abs(current - currentPosition);
-                    return currentDistance < closestDistance
-                        ? current
-                        : closest;
+        head.style.left = targetPixel + "px";
+
+        setTimeout(() => {
+            const requests = document.querySelectorAll(".request");
+            requests.forEach((req) => {
+                const reqPos = Math.round(
+                    (parseFloat(req.style.left) / trackWidth) * 199
+                );
+                if (reqPos === closestRequest) {
+                    req.classList.add("served");
                 }
-            );
+            });
+        }, 400);
 
-            remainingRequests = remainingRequests.filter(
-                (req) => req !== closestRequest
-            );
-            const targetPixel = (closestRequest / 199) * trackWidth;
-
-            seekTime += Math.abs(closestRequest - currentPosition);
-            currentPosition = closestRequest;
-
-            head.style.left = targetPixel + "px";
-
-            setTimeout(() => {
-                const requests = document.querySelectorAll(".request");
-                requests.forEach((req) => {
-                    const reqPos = Math.round(
-                        (parseFloat(req.style.left) / trackWidth) * 199
-                    );
-                    if (reqPos === closestRequest) {
-                        req.classList.add("served");
-                    }
-                });
-            }, 400);
-
-            direction = currentPosition > closestRequest ? -1 : 1;
-            updateStats(closestRequest);
-        }, 1000);
-    } catch (error) {
-        console.error("Error in SSTF:", error);
-    }
+        direction = currentPosition > closestRequest ? -1 : 1;
+        updateStats(closestRequest);
+    }, 1000);
 }
 
 function startSCAN() {
-    try {
-        if (animationInterval) {
-            clearInterval(animationInterval);
-        }
-        reset();
-        resetButtonStates();
-        document
-            .querySelector('button[onclick="startSCAN()"]')
-            .classList.add("active");
-        const diskTrack = document.getElementById("diskTrack");
-        const trackWidth = diskTrack.offsetWidth;
-        const initialHead = parseInt(
-            document.getElementById("initialHead").value
-        );
-        const initialDirection = document.getElementById("scanDirection").value;
-        let currentPosition = initialHead;
+    reset();
+    resetButtonStates();
+    document
+        .querySelector('button[onclick="startSCAN()"]')
+        .classList.add("active");
+    const diskTrack = document.getElementById("diskTrack");
+    const trackWidth = diskTrack.offsetWidth;
+    const initialHead = parseInt(document.getElementById("initialHead").value);
+    const initialDirection = document.getElementById("scanDirection").value;
+    let currentPosition = initialHead;
 
-        let sortedRequests = [...requests].sort((a, b) => a - b);
-        let headIndex = sortedRequests.findIndex((x) => x >= initialHead);
+    let sortedRequests = [...requests].sort((a, b) => a - b);
+    let headIndex = sortedRequests.findIndex((x) => x >= initialHead);
 
-        if (headIndex === -1) headIndex = sortedRequests.length;
+    if (headIndex === -1) headIndex = sortedRequests.length;
 
-        let scanOrder;
-        if (initialDirection === "right") {
-            scanOrder = [
-                ...sortedRequests.slice(headIndex),
-                ...sortedRequests.slice(0, headIndex).reverse(),
-            ];
-            direction = 1;
-        } else {
-            scanOrder = [
-                ...sortedRequests.slice(0, headIndex).reverse(),
-                ...sortedRequests.slice(headIndex),
-            ];
-            direction = -1;
-        }
-
-        let currentRequestIndex = 0;
-
-        animationInterval = setInterval(() => {
-            if (currentRequestIndex >= scanOrder.length) {
-                clearInterval(animationInterval);
-                return;
-            }
-
-            const targetPosition = scanOrder[currentRequestIndex];
-            const targetPixel = (targetPosition / 199) * trackWidth;
-
-            seekTime += Math.abs(targetPosition - currentPosition);
-            currentPosition = targetPosition;
-
-            head.style.left = targetPixel + "px";
-
-            setTimeout(() => {
-                const requests = document.querySelectorAll(".request");
-                requests.forEach((req) => {
-                    const reqPos = Math.round(
-                        (parseFloat(req.style.left) / trackWidth) * 199
-                    );
-                    if (reqPos === targetPosition) {
-                        req.classList.add("served");
-                    }
-                });
-            }, 400);
-
-            updateStats(targetPosition);
-            currentRequestIndex++;
-        }, 1000);
-    } catch (error) {
-        console.error("Error in SCAN:", error);
+    let scanOrder;
+    if (initialDirection === "right") {
+        scanOrder = [
+            ...sortedRequests.slice(headIndex),
+            ...sortedRequests.slice(0, headIndex).reverse(),
+        ];
+        direction = 1;
+    } else {
+        scanOrder = [
+            ...sortedRequests.slice(0, headIndex).reverse(),
+            ...sortedRequests.slice(headIndex),
+        ];
+        direction = -1;
     }
+
+    let currentRequestIndex = 0;
+
+    animationInterval = setInterval(() => {
+        if (currentRequestIndex >= scanOrder.length) {
+            clearInterval(animationInterval);
+            return;
+        }
+
+        const targetPosition = scanOrder[currentRequestIndex];
+        const targetPixel = (targetPosition / 199) * trackWidth;
+
+        seekTime += Math.abs(targetPosition - currentPosition);
+        currentPosition = targetPosition;
+
+        head.style.left = targetPixel + "px";
+
+        setTimeout(() => {
+            const requests = document.querySelectorAll(".request");
+            requests.forEach((req) => {
+                const reqPos = Math.round(
+                    (parseFloat(req.style.left) / trackWidth) * 199
+                );
+                if (reqPos === targetPosition) {
+                    req.classList.add("served");
+                }
+            });
+        }, 400);
+
+        updateStats(targetPosition);
+        currentRequestIndex++;
+    }, 1000);
 }
 
 function reset() {
