@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>磁盘调度算法可视化</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>磁盘调度算法可视化</h1>
+
+            <div class="controls">
+                <div class="input-row">
+                    <label>磁头初始位置:</label>
+                    <input
+                        type="number"
+                        id="initialHead"
+                        value="50"
+                        min="0"
+                        max="199"
+                    />
+
+                    <label>请求队列:</label>
+                    <input
+                        type="text"
+                        id="requestQueue"
+                        value="82,170,43,140,24,16,190"
+                        placeholder="用逗号分隔的数字"
+                    />
+                </div>
+
+                <div class="buttons-row">
+                    <button onclick="reset()">重置</button>
+                    <button onclick="startFCFS()">开始 FCFS</button>
+                    <button onclick="startSSTF()">开始 SSTF</button>
+                    <button onclick="startSCAN()">开始 SCAN</button>
+                    <label>SCAN 初始方向:</label>
+                    <select id="scanDirection">
+                        <option value="right">向右</option>
+                        <option value="left">向左</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="disk-track" id="diskTrack">
+                <div class="head" id="head"></div>
+            </div>
+
+            <div id="stats">
+                <div class="stat-item">
+                    <span>总寻道时间:</span>
+                    <span class="stat-value" id="seekTime">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>当前位置:</span>
+                    <span class="stat-value" id="currentPos">0</span>
+                </div>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
