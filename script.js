@@ -6,9 +6,9 @@ let direction = 1; // 1 for right, -1 for left
 let animationInterval;
 let buttons;
 let algorithmHistory = {
-    fcfs: { seekTime: '-', order: [] },
-    sstf: { seekTime: '-', order: [] },
-    scan: { seekTime: '-', order: [] }
+    fcfs: { seekTime: "-", order: [] },
+    sstf: { seekTime: "-", order: [] },
+    scan: { seekTime: "-", order: [] },
 };
 
 function initialize() {
@@ -80,7 +80,7 @@ function startFCFS() {
         if (currentRequestIndex >= requests.length) {
             clearInterval(animationInterval);
             enableButtons();
-            updateComparisonTable('fcfs', seekTime, visitOrder);
+            updateComparisonTable("fcfs", seekTime, visitOrder);
             return;
         }
 
@@ -126,7 +126,7 @@ function startSSTF() {
         if (remainingRequests.length === 0) {
             clearInterval(animationInterval);
             enableButtons();
-            updateComparisonTable('sstf', seekTime, visitOrder);
+            updateComparisonTable("sstf", seekTime, visitOrder);
             return;
         }
 
@@ -199,7 +199,7 @@ function startSCAN() {
         if (currentRequestIndex >= scanOrder.length) {
             clearInterval(animationInterval);
             enableButtons();
-            updateComparisonTable('scan', seekTime, visitOrder);
+            updateComparisonTable("scan", seekTime, visitOrder);
             return;
         }
 
@@ -260,10 +260,10 @@ window.onload = function () {
 function updateComparisonTable(algorithm, totalSeekTime, order) {
     algorithmHistory[algorithm] = {
         seekTime: totalSeekTime,
-        order: order
+        order: order,
     };
-    
+
     const row = document.getElementById(`${algorithm}Row`);
     row.cells[1].textContent = totalSeekTime;
-    row.cells[2].textContent = order.join(' → ');
+    row.cells[2].textContent = order.join(" → ");
 }
