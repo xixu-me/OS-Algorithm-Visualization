@@ -302,3 +302,24 @@ select:focus {
         grid-template-columns: auto 1fr;
     }
 }
+
+.comparison-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.comparison-header h3 {
+    margin: 0;
+}
+
+.reset-table-btn {
+    background: linear-gradient(45deg, #868e96, #495057);
+    padding: 8px 16px;
+    font-size: 0.9em;
+}
+
+.reset-table-btn:hover {
+    background: linear-gradient(45deg, #495057, #343a40);
+}
