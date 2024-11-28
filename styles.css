@@ -314,6 +314,12 @@ select:focus {
     margin: 0;
 }
 
+.comparison-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
 .reset-table-btn {
     background: linear-gradient(45deg, #868e96, #495057);
     padding: 8px 16px;
