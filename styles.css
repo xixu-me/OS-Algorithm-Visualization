@@ -215,3 +215,58 @@ select:focus {
 .algorithm-card li:last-child {
     margin-bottom: 0;
 }
+
+.seek-time-comparison {
+    margin-top: 2rem;
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.seek-time-comparison h3 {
+    color: #339af0;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+#comparisonTable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#comparisonTable th,
+#comparisonTable td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+#comparisonTable th {
+    background-color: #e9ecef;
+    font-weight: 600;
+    color: #495057;
+}
+
+#comparisonTable tr:last-child td {
+    border-bottom: none;
+}
+
+#comparisonTable td:nth-child(2) {
+    font-family: monospace;
+    color: #339af0;
+    font-weight: 600;
+}
+
+#comparisonTable td:nth-child(3) {
+    font-size: 0.9em;
+    color: #666;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
