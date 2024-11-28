@@ -267,3 +267,17 @@ function updateComparisonTable(algorithm, totalSeekTime, order) {
     row.cells[1].textContent = totalSeekTime;
     row.cells[2].textContent = order.join(" → ");
 }
+
+function resetComparisonTable() {
+    algorithmHistory = {
+        fcfs: { seekTime: "-", order: [] },
+        sstf: { seekTime: "-", order: [] },
+        scan: { seekTime: "-", order: [] },
+    };
+
+    ["fcfs", "sstf", "scan"].forEach((algorithm) => {
+        const row = document.getElementById(`${algorithm}Row`);
+        row.cells[1].textContent = "-";
+        row.cells[2].textContent = "-";
+    });
+}
