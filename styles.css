@@ -22,19 +22,33 @@ h1 {
 .disk-track {
     position: relative;
     width: 100%;
-    height: 80px;
+    height: 120px;
     background: linear-gradient(to right, #e9ecef, #dee2e6);
     border-radius: 8px;
     margin: 2rem 0;
+    padding: 1rem 0;
+}
+
+.track-scale {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    color: #666;
+    font-size: 0.8rem;
 }
 
 .head {
     position: absolute;
     width: 20px;
-    height: 50px;
+    height: 60px;
     background: linear-gradient(45deg, #ff4d4d, #ff6b6b);
     border-radius: 6px;
-    top: 15px;
+    top: 25px;
     transform: translateX(-50%);
     transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 8px rgba(255, 77, 77, 0.3);
@@ -46,7 +60,7 @@ h1 {
     height: 12px;
     background-color: #339af0;
     border-radius: 50%;
-    top: 34px;
+    top: 49px;
     transform: translateX(-50%);
     transition: background-color 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -66,14 +80,15 @@ h1 {
 
 .input-row {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr auto 1fr;
     gap: 1rem;
     margin-bottom: 1rem;
+    align-items: center;
 }
 
 .buttons-row {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 12px;
     align-items: center;
 }
@@ -271,4 +286,19 @@ select:focus {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .seek-time-comparison {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    #comparisonTable {
+        min-width: 600px;
+    }
+    
+    .input-row {
+        grid-template-columns: auto 1fr;
+    }
 }
