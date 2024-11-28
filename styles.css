@@ -161,3 +161,57 @@ select:focus {
     color: #666;
     font-size: 0.9em;
 }
+
+.algorithm-comparison {
+    margin-top: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.algorithm-comparison summary {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: #339af0;
+    user-select: none;
+}
+
+.algorithm-comparison summary:hover {
+    background-color: #e9ecef;
+}
+
+.comparison-content {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.algorithm-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.algorithm-card h3 {
+    color: #339af0;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.algorithm-card ul {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.algorithm-card li {
+    margin-bottom: 0.5rem;
+    color: #495057;
+    line-height: 1.5;
+}
+
+.algorithm-card li:last-child {
+    margin-bottom: 0;
+}
