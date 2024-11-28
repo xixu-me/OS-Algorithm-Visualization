@@ -72,6 +72,39 @@
                 </div>
             </div>
 
+            <details class="algorithm-comparison">
+                <summary>算法特点比较</summary>
+                <div class="comparison-content">
+                    <div class="algorithm-card">
+                        <h3>FCFS (先来先服务)</h3>
+                        <ul>
+                            <li>按请求到达的顺序进行服务</li>
+                            <li>实现简单，公平</li>
+                            <li>性能较差，可能造成磁头频繁长距离移动</li>
+                            <li>不会出现饥饿现象</li>
+                        </ul>
+                    </div>
+                    <div class="algorithm-card">
+                        <h3>SSTF (最短寻道时间优先)</h3>
+                        <ul>
+                            <li>优先处理距离当前磁头最近的请求</li>
+                            <li>平均寻道时间较短</li>
+                            <li>可能造成远处请求长时间等待（饥饿）</li>
+                            <li>局部性能优秀</li>
+                        </ul>
+                    </div>
+                    <div class="algorithm-card">
+                        <h3>SCAN (电梯算法)</h3>
+                        <ul>
+                            <li>按一个方向移动直到末端，再反向移动</li>
+                            <li>避免了饥饿现象</li>
+                            <li>对于双向磁盘访问较为公平</li>
+                            <li>性能介于FCFS和SSTF之间</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+
             <footer class="copyright">
                 <p>Copyright &copy; 2024 null. All rights reserved.</p>
             </footer>
