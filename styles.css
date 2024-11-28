@@ -1,5 +1,5 @@
 body {
-    font-family: "Segoe UI", system-ui, sans-serif;
+    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -195,10 +195,12 @@ select:focus {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.algorithm-card h3 {
+.algorithm-card h3,
+.seek-time-comparison h3 {
     color: #339af0;
     margin-top: 0;
     margin-bottom: 1rem;
+    font-size: 1.25rem;
 }
 
 .algorithm-card ul {
@@ -257,7 +259,7 @@ select:focus {
 }
 
 #comparisonTable td:nth-child(2) {
-    font-family: monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     color: #339af0;
     font-weight: 600;
 }
