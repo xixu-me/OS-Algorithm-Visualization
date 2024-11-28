@@ -5,6 +5,11 @@ let seekTime = 0;
 let direction = 1; // 1 for right, -1 for left
 let animationInterval;
 let buttons;
+let algorithmHistory = {
+    fcfs: { seekTime: '-', order: [] },
+    sstf: { seekTime: '-', order: [] },
+    scan: { seekTime: '-', order: [] }
+};
 
 function initialize() {
     head = document.getElementById("head");
@@ -69,16 +74,19 @@ function startFCFS() {
         document.getElementById("initialHead").value
     );
     let currentRequestIndex = 0;
+    let visitOrder = [];
 
     animationInterval = setInterval(() => {
         if (currentRequestIndex >= requests.length) {
             clearInterval(animationInterval);
             enableButtons();
+            updateComparisonTable('fcfs', seekTime, visitOrder);
             return;
         }
 
         const trackWidth = diskTrack.offsetWidth;
         const targetPosition = requests[currentRequestIndex];
+        visitOrder.push(targetPosition);
         const targetPixel = (targetPosition / 199) * trackWidth;
 
         seekTime += Math.abs(targetPosition - currentPosition);
@@ -112,11 +120,13 @@ function startSSTF() {
     const initialHead = parseInt(document.getElementById("initialHead").value);
     let currentPosition = initialHead;
     let remainingRequests = [...requests];
+    let visitOrder = [];
 
     animationInterval = setInterval(() => {
         if (remainingRequests.length === 0) {
             clearInterval(animationInterval);
             enableButtons();
+            updateComparisonTable('sstf', seekTime, visitOrder);
             return;
         }
 
@@ -125,7 +135,7 @@ function startSSTF() {
             let currentDistance = Math.abs(current - currentPosition);
             return currentDistance < closestDistance ? current : closest;
         });
-
+        visitOrder.push(closestRequest);
         remainingRequests = remainingRequests.filter(
             (req) => req !== closestRequest
         );
@@ -183,15 +193,18 @@ function startSCAN() {
     }
 
     let currentRequestIndex = 0;
+    let visitOrder = [];
 
     animationInterval = setInterval(() => {
         if (currentRequestIndex >= scanOrder.length) {
             clearInterval(animationInterval);
             enableButtons();
+            updateComparisonTable('scan', seekTime, visitOrder);
             return;
         }
 
         const targetPosition = scanOrder[currentRequestIndex];
+        visitOrder.push(targetPosition);
         const targetPixel = (targetPosition / 199) * trackWidth;
 
         seekTime += Math.abs(targetPosition - currentPosition);
@@ -243,3 +256,14 @@ window.onload = function () {
         resizeTimeout = setTimeout(handleResize, 100);
     });
 };
+
+function updateComparisonTable(algorithm, totalSeekTime, order) {
+    algorithmHistory[algorithm] = {
+        seekTime: totalSeekTime,
+        order: order
+    };
+    
+    const row = document.getElementById(`${algorithm}Row`);
+    row.cells[1].textContent = totalSeekTime;
+    row.cells[2].textContent = order.join(' → ');
+}
