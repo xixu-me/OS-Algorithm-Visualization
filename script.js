@@ -181,12 +181,14 @@ function startSCAN() {
     if (initialDirection === "right") {
         scanOrder = [
             ...sortedRequests.slice(headIndex),
+            199,
             ...sortedRequests.slice(0, headIndex).reverse(),
         ];
         direction = 1;
     } else {
         scanOrder = [
             ...sortedRequests.slice(0, headIndex).reverse(),
+            0,
             ...sortedRequests.slice(headIndex),
         ];
         direction = -1;
@@ -204,7 +206,9 @@ function startSCAN() {
         }
 
         const targetPosition = scanOrder[currentRequestIndex];
-        visitOrder.push(targetPosition);
+        if (targetPosition !== 0 && targetPosition !== 199) {
+            visitOrder.push(targetPosition);
+        }
         const targetPixel = (targetPosition / 199) * trackWidth;
 
         seekTime += Math.abs(targetPosition - currentPosition);
