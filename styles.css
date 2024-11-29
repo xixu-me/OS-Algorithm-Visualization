@@ -177,6 +177,17 @@ select:focus {
     font-size: 0.9em;
 }
 
+.copyright a {
+    color: #339af0;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.copyright a:hover {
+    color: #228be6;
+    text-decoration: underline;
+}
+
 .algorithm-comparison {
     margin-top: 2rem;
     background-color: #f8f9fa;
