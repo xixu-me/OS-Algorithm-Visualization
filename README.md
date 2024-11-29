@@ -1,2 +1,32 @@
-# OS-Algorithm-Visualization
-OS Algorithm Visualization
+# 磁盘调度算法可视化
+
+一个用于演示和比较不同磁盘调度算法的交互式可视化工具。支持 FCFS（先来先服务）、SSTF（最短寻道时间优先）和 SCAN（电梯算法）三种经典的磁盘调度算法。
+
+## 功能特点
+
+- 直观的磁头移动可视化
+- 实时显示寻道时间和当前位置
+- 支持三种经典磁盘调度算法：
+  - FCFS (First Come First Serve)
+  - SSTF (Shortest Seek Time First)
+  - SCAN (电梯算法)
+- 算法性能比较表格
+- 详细的算法特点说明
+- 响应式设计，支持移动设备
+
+## 使用方法
+
+1. 设置磁头初始位置（0-199）
+2. 输入请求队列（用逗号分隔的数字）
+3. 选择 SCAN 算法的初始方向（向左/向右）
+4. 点击对应算法按钮开始演示
+5. 使用重置按钮可以重新开始演示
+6. 查看比较表格了解不同算法的性能差异
+
+## 在线演示
+
+访问 [https://os.xixu.us.kg](https://os.xixu.us.kg) 体验在线演示。
+
+## 开源协议
+
+本项目采用 GNU General Public License v3.0 开源协议。详见 [LICENSE](LICENSE) 文件。
