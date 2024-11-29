@@ -3,16 +3,28 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta property="og:title" content="磁盘调度算法可视化" />
-        <meta property="og:description" content="磁盘调度算法可视化" />
+        <meta
+            property="og:title"
+            content="Disk Scheduling Algorithm Visualization"
+        />
+        <meta
+            property="og:description"
+            content="Disk Scheduling Algorithm Visualization"
+        />
         <meta
             property="og:image"
             content="https://proxy.xixu.us.kg/?url=https%3A%2F%2Fxi-xu.me%2Fimages%2Ffavicon.png"
         />
         <meta property="og:url" content="https://os.xixu.us.kg" />
-        <meta name="description" content="磁盘调度算法可视化" />
-        <meta name="keywords" content="磁盘调度算法可视化" />
-        <title>磁盘调度算法可视化</title>
+        <meta
+            name="description"
+            content="Disk Scheduling Algorithm Visualization"
+        />
+        <meta
+            name="keywords"
+            content="Disk Scheduling Algorithm Visualization"
+        />
+        <title>Disk Scheduling Algorithm Visualization</title>
         <link
             rel="icon"
             href="https://proxy.xixu.us.kg/?url=https%3A%2F%2Fxi-xu.me%2Fimages%2Ffavicon.png"
@@ -22,11 +34,11 @@
     </head>
     <body>
         <div class="container">
-            <h1>磁盘调度算法可视化</h1>
+            <h1>Disk Scheduling Algorithm Visualization</h1>
 
             <div class="controls">
                 <div class="input-row">
-                    <label>磁头初始位置:</label>
+                    <label>Initial Head Position:</label>
                     <input
                         type="number"
                         id="initialHead"
@@ -35,24 +47,24 @@
                         max="199"
                     />
 
-                    <label>请求队列:</label>
+                    <label>Request Queue:</label>
                     <input
                         type="text"
                         id="requestQueue"
                         value="82,170,43,140,24,16,190"
-                        placeholder="用逗号分隔的数字"
+                        placeholder="Comma-separated numbers"
                     />
                 </div>
 
                 <div class="buttons-row">
-                    <button onclick="reset()">重置</button>
-                    <button onclick="startFCFS()">开始 FCFS</button>
-                    <button onclick="startSSTF()">开始 SSTF</button>
-                    <button onclick="startSCAN()">开始 SCAN</button>
-                    <label>SCAN 初始方向:</label>
+                    <button onclick="reset()">Reset</button>
+                    <button onclick="startFCFS()">Start FCFS</button>
+                    <button onclick="startSSTF()">Start SSTF</button>
+                    <button onclick="startSCAN()">Start SCAN</button>
+                    <label>SCAN Direction:</label>
                     <select id="scanDirection">
-                        <option value="right">向右</option>
-                        <option value="left">向左</option>
+                        <option value="right">Right</option>
+                        <option value="left">Left</option>
                     </select>
                 </div>
             </div>
@@ -70,11 +82,11 @@
 
             <div id="stats">
                 <div class="stat-item">
-                    <span>总寻道时间:</span>
+                    <span>Total Seek Time:</span>
                     <span class="stat-value" id="seekTime">0</span>
                 </div>
                 <div class="stat-item">
-                    <span>当前位置:</span>
+                    <span>Current Position:</span>
                     <span class="stat-value" id="currentPos">0</span>
                 </div>
             </div>
@@ -83,9 +95,9 @@
                 <table id="comparisonTable">
                     <thead>
                         <tr>
-                            <th>算法</th>
-                            <th>总寻道时间</th>
-                            <th>执行顺序</th>
+                            <th>Algorithm</th>
+                            <th>Total Seek Time</th>
+                            <th>Execution Order</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -111,39 +123,47 @@
                         onclick="resetComparisonTable()"
                         class="reset-table-btn"
                     >
-                        重置表格
+                        Reset Table
                     </button>
                 </div>
             </div>
 
             <details class="algorithm-comparison">
-                <summary>算法特点比较</summary>
+                <summary>Algorithm Characteristics Comparison</summary>
                 <div class="comparison-content">
                     <div class="algorithm-card">
-                        <h3>FCFS (先来先服务)</h3>
+                        <h3>FCFS (First Come First Serve)</h3>
                         <ul>
-                            <li>按请求到达的顺序进行服务</li>
-                            <li>实现简单，公平</li>
-                            <li>性能较差，可能造成磁头频繁长距离移动</li>
-                            <li>不会出现饥饿现象</li>
+                            <li>Serves requests in order of arrival</li>
+                            <li>Simple implementation, fair</li>
+                            <li>
+                                Poor performance, may cause frequent
+                                long-distance head movements
+                            </li>
+                            <li>No starvation</li>
                         </ul>
                     </div>
                     <div class="algorithm-card">
-                        <h3>SSTF (最短寻道时间优先)</h3>
+                        <h3>SSTF (Shortest Seek Time First)</h3>
                         <ul>
-                            <li>优先处理距离当前磁头最近的请求</li>
-                            <li>平均寻道时间较短</li>
-                            <li>可能造成远处请求长时间等待（饥饿）</li>
-                            <li>局部性能优秀</li>
+                            <li>
+                                Prioritizes closest requests to current head
+                                position
+                            </li>
+                            <li>Lower average seek time</li>
+                            <li>May cause starvation for distant requests</li>
+                            <li>Excellent local performance</li>
                         </ul>
                     </div>
                     <div class="algorithm-card">
-                        <h3>SCAN (电梯算法)</h3>
+                        <h3>SCAN (Elevator Algorithm)</h3>
                         <ul>
-                            <li>按一个方向移动直到末端，再反向移动</li>
-                            <li>避免了饥饿现象</li>
-                            <li>对于双向磁盘访问较为公平</li>
-                            <li>性能介于 FCFS 和 SSTF 之间</li>
+                            <li>
+                                Moves in one direction until end, then reverses
+                            </li>
+                            <li>Prevents starvation</li>
+                            <li>Fair for bidirectional disk access</li>
+                            <li>Performance between FCFS and SSTF</li>
                         </ul>
                     </div>
                 </div>
