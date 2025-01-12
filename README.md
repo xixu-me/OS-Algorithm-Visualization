@@ -29,4 +29,7 @@ Visit <https://ds.xixu.us.kg> to experience the online demo.
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
+Copyright &copy; [Xi Xu](https://xi-xu.me). All rights reserved.
+
+Licensed under the [GPL-3.0](LICENSE) license.
+
