@@ -25,7 +25,7 @@ An interactive visualization tool for demonstrating and comparing different disk
 
 ## Online Demo
 
-Visit [https://os.xixu.us.kg](https://os.xixu.us.kg) to experience the online demo.
+Visit <https://ds.xixu.us.kg> to experience the online demo.
 
 ## License
 
